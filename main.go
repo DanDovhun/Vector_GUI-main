@@ -41,6 +41,8 @@ func ResultsTwoDimWindow(appl fyne.App, home fyne.Window, vecA TwoDimVec, vecB T
 	subtractionMag := subtraction.Magnitude()
 	subtractionTwoDimAngle := subtraction.TwoDimAngle()
 
+	angleBetween := vecA.AngleBetween(vecB)
+
 	results.SetContent(container.NewVBox(
 		widget.NewLabel(
 			fmt.Sprintf("Vector %v\n", vecA.name)+
@@ -70,7 +72,13 @@ func ResultsTwoDimWindow(appl fyne.App, home fyne.Window, vecA TwoDimVec, vecB T
 				fmt.Sprintf("Angle: %v radians; %v degrees", round(subtractionTwoDimAngle.radians, 5), round(subtractionTwoDimAngle.degrees, 5)),
 		),
 
-		widget.NewButton("OK", func() {
+		widget.NewLabel(
+			fmt.Sprintf("Dot Product: %v\n", round(vecA.DotProduct(vecB), 5))+
+				fmt.Sprintf("Cross Product: %v\n", round(vecA.CrossProduct(vecB), 5))+
+				fmt.Sprintf("Angle between vectors: %v radians; %v degrees", round(angleBetween.radians, 5), round(angleBetween.degrees, 5)),
+		),
+
+		widget.NewButton("Close", func() {
 			home.Show()
 			home.SetMaster()
 			results.Hide()
@@ -80,7 +88,7 @@ func ResultsTwoDimWindow(appl fyne.App, home fyne.Window, vecA TwoDimVec, vecB T
 	results.Show()
 }
 
-func ResultsThreeDimWindow(appl fyne.App, window fyne.Window, vecA ThreeDimVec, vecB ThreeDimVec) {
+func ResultsThreeDimWindow(appl fyne.App, home fyne.Window, vecA ThreeDimVec, vecB ThreeDimVec) {
 	results := appl.NewWindow("3D Results")
 
 	vecAAngle := vecA.Elevation()
@@ -96,6 +104,12 @@ func ResultsThreeDimWindow(appl fyne.App, window fyne.Window, vecA ThreeDimVec, 
 	subtraction := vecA.Sub(vecB)
 	suntractionAngle := subtraction.Elevation()
 	subtractionRotation := subtraction.Rotation()
+
+	crossProduct := vecA.CrossProduct(vecB)
+	crossProductAngle := crossProduct.Elevation()
+	crossProductRotation := crossProduct.Rotation()
+
+	angleBetween := vecA.AngleBetween(vecB)
 
 	results.SetContent(container.NewVBox(
 		widget.NewLabel(
@@ -129,6 +143,25 @@ func ResultsThreeDimWindow(appl fyne.App, window fyne.Window, vecA ThreeDimVec, 
 				fmt.Sprintf("Elevation: %v radians; %v deggrees\n", round(suntractionAngle.radians, 5), round(suntractionAngle.degrees, 5))+
 				fmt.Sprintf("Rotation: %v radians; %v degrees", round(subtractionRotation.radians, 5), round(subtractionRotation.degrees, 5)),
 		),
+
+		widget.NewLabel(
+			fmt.Sprintf("Vector %v\n", crossProduct.name)+
+				fmt.Sprintf("Coordinates: %v\n", crossProduct.Coordinates())+
+				fmt.Sprintf("Magnitude: %v\n", round(crossProduct.Magnitude(), 5))+
+				fmt.Sprintf("Elevation: %v radians; %v deggrees\n", round(crossProductAngle.radians, 5), round(crossProductAngle.degrees, 5))+
+				fmt.Sprintf("Rotation: %v radians; %v degrees", round(crossProductRotation.radians, 5), round(crossProductRotation.degrees, 5)),
+		),
+
+		widget.NewLabel(
+			fmt.Sprintf("Dot Product: %v\n", vecA.DotProduct(vecB))+
+				fmt.Sprintf("Angle between vectors: %v radians; %v degrees", round(angleBetween.radians, 5), round(angleBetween.degrees, 5)),
+		),
+
+		widget.NewButton("Close", func() {
+			home.Show()
+			home.SetMaster()
+			results.Hide()
+		}),
 	))
 
 	results.Show()

@@ -58,3 +58,34 @@ func (vec ThreeDimVec) Sub(b ThreeDimVec) ThreeDimVec {
 		vec.z + b.z,
 	}
 }
+
+func (vec ThreeDimVec) DotProduct(vecB ThreeDimVec) float64 {
+	product := vec.x*vecB.x + vec.y*vecB.y + vec.z*vecB.z
+
+	return product
+}
+
+func (vec ThreeDimVec) CrossProduct(vecB ThreeDimVec) ThreeDimVec {
+	x := vec.y*vecB.z - vec.z*vecB.y
+	y := vec.x*vecB.z - vec.z*vecB.x
+	z := vec.x*vecB.y - vec.y*vecB.x
+
+	return ThreeDimVec{"E (Cross product)", x, y, z}
+}
+
+func (vec ThreeDimVec) AngleBetween(vecB ThreeDimVec) Angle {
+	magA := vec.Magnitude()
+	magB := vecB.Magnitude()
+
+	if magA == 0 && magB == 0 {
+		return Angle{0, 0}
+	}
+
+	dotProcuct := vec.DotProduct(vecB)
+	angle := dotProcuct / (magA * magB)
+
+	return Angle{
+		angle,
+		180 * angle / math.Pi,
+	}
+}
