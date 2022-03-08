@@ -1,6 +1,13 @@
 package main
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
+
+func (vec ThreeDimVec) Coordinates() string {
+	return fmt.Sprintf("(%v, %v, %v)", vec.x, vec.y, vec.z)
+}
 
 func (vec ThreeDimVec) Magnitude() float64 {
 	return math.Sqrt(math.Pow(vec.x, 2) + math.Pow(vec.y, 2) + math.Pow(vec.z, 2))
@@ -45,7 +52,7 @@ func (vec ThreeDimVec) Add(b ThreeDimVec) ThreeDimVec {
 
 func (vec ThreeDimVec) Sub(b ThreeDimVec) ThreeDimVec {
 	return ThreeDimVec{
-		"C (A + B)",
+		"D (A - B)",
 		vec.x + b.x,
 		vec.y + b.y,
 		vec.z + b.z,

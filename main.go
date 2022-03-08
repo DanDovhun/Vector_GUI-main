@@ -83,6 +83,54 @@ func ResultsTwoDimWindow(appl fyne.App, home fyne.Window, vecA TwoDimVec, vecB T
 func ResultsThreeDimWindow(appl fyne.App, window fyne.Window, vecA ThreeDimVec, vecB ThreeDimVec) {
 	results := appl.NewWindow("3D Results")
 
+	vecAAngle := vecA.Elevation()
+	vecBAngle := vecB.Elevation()
+
+	vecARotation := vecA.Rotation()
+	vecBRotation := vecB.Rotation()
+
+	addition := vecA.Add(vecB)
+	additionAngle := addition.Elevation()
+	additionRotation := addition.Rotation()
+
+	subtraction := vecA.Sub(vecB)
+	suntractionAngle := subtraction.Elevation()
+	subtractionRotation := subtraction.Rotation()
+
+	results.SetContent(container.NewVBox(
+		widget.NewLabel(
+			fmt.Sprintf("Vector %v\n", vecA.name)+
+				fmt.Sprintf("Coordinates: %v\n", vecA.Coordinates())+
+				fmt.Sprintf("Magnitude: %v\n", round(vecA.Magnitude(), 5))+
+				fmt.Sprintf("Elevation: %v radians; %v deggrees\n", round(vecAAngle.radians, 5), round(vecAAngle.degrees, 5))+
+				fmt.Sprintf("Rotation: %v radians; %v degrees", round(vecARotation.radians, 5), round(vecARotation.degrees, 5)),
+		),
+
+		widget.NewLabel(
+			fmt.Sprintf("Vector %v\n", vecB.name)+
+				fmt.Sprintf("Coordinates: %v\n", vecB.Coordinates())+
+				fmt.Sprintf("Magnitude: %v\n", round(vecB.Magnitude(), 5))+
+				fmt.Sprintf("Elevation: %v radians; %v deggrees\n", round(vecBAngle.radians, 5), round(vecBAngle.degrees, 5))+
+				fmt.Sprintf("Rotation: %v radians; %v degrees", round(vecBRotation.radians, 5), round(vecBRotation.degrees, 5)),
+		),
+
+		widget.NewLabel(
+			fmt.Sprintf("Vector %v\n", addition.name)+
+				fmt.Sprintf("Coordinates: %v\n", addition.Coordinates())+
+				fmt.Sprintf("Magnitude: %v\n", round(addition.Magnitude(), 5))+
+				fmt.Sprintf("Elevation: %v radians; %v deggrees\n", round(additionAngle.radians, 5), round(additionAngle.degrees, 5))+
+				fmt.Sprintf("Rotation: %v radians; %v degrees", round(additionRotation.radians, 5), round(additionRotation.degrees, 5)),
+		),
+
+		widget.NewLabel(
+			fmt.Sprintf("Vector %v\n", subtraction.name)+
+				fmt.Sprintf("Coordinates: %v\n", subtraction.Coordinates())+
+				fmt.Sprintf("Magnitude: %v\n", round(subtraction.Magnitude(), 5))+
+				fmt.Sprintf("Elevation: %v radians; %v deggrees\n", round(suntractionAngle.radians, 5), round(suntractionAngle.degrees, 5))+
+				fmt.Sprintf("Rotation: %v radians; %v degrees", round(subtractionRotation.radians, 5), round(subtractionRotation.degrees, 5)),
+		),
+	))
+
 	results.Show()
 }
 
@@ -164,11 +212,11 @@ func ThreeDimVecWindow(appl fyne.App, home fyne.Window) {
 
 		widget.NewButton("Calculate", func() {
 			xA, err1 := strconv.ParseFloat(vecAEntryX.Text, 64)
-			yA, err2 := strconv.ParseFloat(vecAEntryX.Text, 64)
-			zA, err3 := strconv.ParseFloat(vecAEntryX.Text, 64)
-			xB, err4 := strconv.ParseFloat(vecAEntryX.Text, 64)
-			yB, err5 := strconv.ParseFloat(vecAEntryX.Text, 64)
-			zB, err6 := strconv.ParseFloat(vecAEntryX.Text, 64)
+			yA, err2 := strconv.ParseFloat(vecAEntryY.Text, 64)
+			zA, err3 := strconv.ParseFloat(vecAEntryZ.Text, 64)
+			xB, err4 := strconv.ParseFloat(vecBEntryX.Text, 64)
+			yB, err5 := strconv.ParseFloat(vecBEntryY.Text, 64)
+			zB, err6 := strconv.ParseFloat(vecBEntryZ.Text, 64)
 
 			if err1 != nil || err2 != nil || err3 != nil || err4 != nil || err5 != nil || err6 != nil {
 				popup(appl, "Please only enter numbers")
