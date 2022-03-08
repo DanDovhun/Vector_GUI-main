@@ -80,6 +80,12 @@ func ResultsTwoDimWindow(appl fyne.App, home fyne.Window, vecA TwoDimVec, vecB T
 	results.Show()
 }
 
+func ResultsThreeDimWindow(appl fyne.App, window fyne.Window, vecA ThreeDimVec, vecB ThreeDimVec) {
+	results := appl.NewWindow("3D Results")
+
+	results.Show()
+}
+
 func TwoDimVecWindow(appl fyne.App, home fyne.Window) {
 	home.Hide()
 	window := appl.NewWindow("2D Vectors")
@@ -131,7 +137,59 @@ func TwoDimVecWindow(appl fyne.App, home fyne.Window) {
 }
 
 func ThreeDimVecWindow(appl fyne.App, home fyne.Window) {
+	home.Hide()
+	window := appl.NewWindow("3D Vectors")
+	window.SetMaster()
 
+	vecALabel := widget.NewLabel("Vector A")
+	vecAEntryX := widget.NewEntry()
+	vecAEntryY := widget.NewEntry()
+	vecAEntryZ := widget.NewEntry()
+
+	vecBLabel := widget.NewLabel("Vector B")
+	vecBEntryX := widget.NewEntry()
+	vecBEntryY := widget.NewEntry()
+	vecBEntryZ := widget.NewEntry()
+
+	window.SetContent(container.NewVBox(
+		vecALabel,
+		vecAEntryX,
+		vecAEntryY,
+		vecAEntryZ,
+
+		vecBLabel,
+		vecBEntryX,
+		vecBEntryY,
+		vecBEntryZ,
+
+		widget.NewButton("Calculate", func() {
+			xA, err1 := strconv.ParseFloat(vecAEntryX.Text, 64)
+			yA, err2 := strconv.ParseFloat(vecAEntryX.Text, 64)
+			zA, err3 := strconv.ParseFloat(vecAEntryX.Text, 64)
+			xB, err4 := strconv.ParseFloat(vecAEntryX.Text, 64)
+			yB, err5 := strconv.ParseFloat(vecAEntryX.Text, 64)
+			zB, err6 := strconv.ParseFloat(vecAEntryX.Text, 64)
+
+			if err1 != nil || err2 != nil || err3 != nil || err4 != nil || err5 != nil || err6 != nil {
+				popup(appl, "Please only enter numbers")
+				return
+			}
+
+			vecA := ThreeDimVec{"A", xA, yA, zA}
+			vecB := ThreeDimVec{"B", xB, yB, zB}
+
+			ResultsThreeDimWindow(appl, window, vecA, vecB)
+		}),
+
+		widget.NewButton("Back", func() {
+			home.Show()
+			home.SetMaster()
+			window.Hide()
+		}),
+	))
+
+	window.Resize(fyne.NewSize(250, 250))
+	window.Show()
 }
 
 func main() {

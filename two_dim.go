@@ -13,14 +13,14 @@ func (vec TwoDimVec) Magnitude() float64 {
 	return math.Sqrt(math.Pow(vec.x, 2) + math.Pow(vec.y, 2))
 }
 
-func (vec TwoDimVec) TwoDimAngle() TwoDimAngle {
+func (vec TwoDimVec) TwoDimAngle() Angle {
 	if vec.x == 0 {
-		return TwoDimAngle{math.Pi * 90 / 180, 90}
+		return Angle{math.Pi * 90 / 180, 90}
 	}
 
 	angle := math.Atan(vec.y / vec.x)
 
-	return TwoDimAngle{angle, angle * 180 / math.Pi}
+	return Angle{angle, angle * 180 / math.Pi}
 }
 
 func (vec TwoDimVec) Add(b TwoDimVec) TwoDimVec {
